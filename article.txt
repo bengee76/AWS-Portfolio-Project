@@ -1,5 +1,0 @@
-Portfolio Project "Getting started with AWS"
-
-Projekt ten przedstawia mój proces nauki Amazon Web Servicess.
-Z założenia przedstawie etapy przej
-
