@@ -1,6 +1,14 @@
 Portfolio Project "Getting started with AWS"
 
-Projekt ten opisuje mój proces nauki Amazon Web Services. Z założenia ma przedstawiać deployment oraz etapy przechodzenia z prostej strony internetowej, postawionej na pojedynczym serwerze EC2, na w pełni bezserwerową (serverless) aplikację internetową. Dodatkowo, po każdym etapie zawierającym większą zmianę w architekturze, zautomatyzuję proces deploymentu (Infrastructure as Code) z użyciem Terraform i przeanalizuję koszty z nią związane. Wraz z nabyciem umiejętności tworzenia automatyzacji wdrożę CI/CD pipeline za pomocą Jenkinsa w celu zautomatyzowania deploymentu i przeprowadzania automatycznych testów w momencie publikacji nowego kodu. Hostowaną stroną jest Fortune of the Day – ciastko z wróżbą. Początkowo strona ma wyświetlać inną wróżbę codziennie. Wraz z kolejnymi etapami rozwoju infrastruktury funkcjonalność strony będzie rozszerzana o nowe funkcje, takie jak możliwość dodawania własnych wróżb przez użytkowników.
+Projekt ten opisuje mój proces nauki Amazon Web Services. Z założenia ma przedstawiać deployment oraz 
+etapy przechodzenia z prostej strony internetowej, postawionej na pojedynczym serwerze EC2,
+na w pełni bezserwerową (serverless) aplikację internetową. Dodatkowo, po każdym etapie 
+zawierającym większą zmianę w architekturze, zautomatyzuję proces deploymentu (Infrastructure as Code)
+z użyciem Terraform i przeanalizuję koszty z nią związane. Wraz z nabyciem umiejętności tworzenia automatyzacji
+wdrożę CI/CD pipeline za pomocą Jenkinsa w celu zautomatyzowania deploymentu i przeprowadzania automatycznych 
+testów w momencie publikacji nowego kodu. Hostowaną stroną jest Fortune of the Day – ciastko z wróżbą. 
+Początkowo strona ma wyświetlać inną wróżbę codziennie. Wraz z kolejnymi etapami rozwoju infrastruktury 
+funkcjonalność strony będzie rozszerzana o nowe funkcje, takie jak możliwość dodawania własnych wróżb przez użytkowników.
 
 Koncepty do nauki:
   -Web Server(NGINX)
