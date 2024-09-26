@@ -2,7 +2,7 @@ Portfolio Project "Getting started with AWS"
 
 Projekt ten opisuje mój proces nauki Amazon Web Services. Z założenia ma przedstawiać deployment oraz 
 etapy przechodzenia z prostej strony internetowej, postawionej na pojedynczym serwerze EC2,
-na w pełni bezserwerową (serverless) aplikację internetową. Dodatkowo, po każdym etapie 
+na w pełni bezserwerową (serverless), tanią i łatwą w skalowaniu aplikację internetową. Dodatkowo, po każdym etapie 
 zawierającym większą zmianę w architekturze, zautomatyzuję proces deploymentu (Infrastructure as Code)
 z użyciem Terraform i przeanalizuję koszty z nią związane. Wraz z nabyciem umiejętności tworzenia automatyzacji
 wdrożę CI/CD pipeline za pomocą Jenkinsa w celu zautomatyzowania deploymentu i przeprowadzania automatycznych 
