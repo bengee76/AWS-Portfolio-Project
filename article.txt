@@ -1,19 +1,13 @@
 Portfolio Project "Getting started with AWS"
 
-Projekt ten opisuje mój proces nauki Amazon Web Services. Z założenia ma przedstawiać deployment oraz 
-etapy przechodzenia z prostej strony internetowej, postawionej na pojedynczym serwerze EC2,
-na w pełni bezserwerową (serverless), tanią i łatwą w skalowaniu aplikację internetową. Dodatkowo, po każdym etapie 
-zawierającym większą zmianę w architekturze, zautomatyzuję proces deploymentu (Infrastructure as Code)
-z użyciem Terraform i przeanalizuję koszty z nią związane. Wraz z nabyciem umiejętności tworzenia automatyzacji
-wdrożę CI/CD pipeline za pomocą Jenkinsa w celu zautomatyzowania deploymentu i przeprowadzania automatycznych 
-testów w momencie publikacji nowego kodu. Hostowaną stroną jest Fortune of the Day – ciastko z wróżbą. 
-Początkowo strona ma wyświetlać inną wróżbę codziennie. Wraz z kolejnymi etapami rozwoju infrastruktury 
-funkcjonalność strony będzie rozszerzana o nowe funkcje, takie jak możliwość dodawania własnych wróżb przez użytkowników.
+Projekt ten opisuje mój proces nauki Amazon Web Services. Z założenia ma przedstawiać deployment oraz etapy przechodzenia z prostej strony internetowej, postawionej na pojedynczym serwerze EC2, na w pełni bezserwerową (serverless) aplikację internetową. Dodatkowo, po każdym etapie zawierającym większą zmianę w architekturze, zautomatyzuję proces deploymentu (Infrastructure as Code) z użyciem Terraform i przeanalizuję koszty z nią związane. Wraz z nabyciem umiejętności tworzenia automatyzacji wdrożę CI/CD pipeline za pomocą Jenkinsa w celu zautomatyzowania deploymentu i przeprowadzania automatycznych testów w momencie publikacji nowego kodu. Hostowaną stroną jest Fortune of the Day – ciastko z wróżbą. Początkowo strona ma wyświetlać inną wróżbę codziennie. Wraz z kolejnymi etapami rozwoju infrastruktury funkcjonalność strony będzie rozszerzana o nowe funkcje, takie jak możliwość dodawania własnych wróżb przez użytkowników.
 
 Koncepty do nauki:
   -Web Server(NGINX)
   -IaC(Terraform)
   -CI/CD(Jenkins)
+  -??Node.JS??
+  -Ansible
   
 Każdy etap zawiera:
   -Tytuł
@@ -23,17 +17,19 @@ Każdy etap zawiera:
   -Sekcja napotkanych problemów oraz jak je rozwiązałem
   format sekcji problemów:
   
-  ##Problemy##
-    Problem:
-      sample problem
-    Rozwiązanie:
-      sample problem solve
+##Problemy##
+   Problem:
+     sample problem
+   Rozwiązanie:
+     sample problem solve
   
   -Sekcja Terraform
   -??screen Terraform??
   -Sekcja analizy kosztów
 
-(1.)Web Hosting Basics	#NGINX #SCP
+
+
+(1.) Web Hosting Basics	    #NGINX #SCP
  
  #Ten etap opisuje proces deploymentu i hostingu prostej statycznej strony
   (Pojedynczy plik html) z użyciem NGINX skonfigurowanym na EC2.
@@ -54,3 +50,20 @@ Każdy etap zawiera:
   Terraform i stworzyć całą infrastrukturę od nowa w formie kodu.
   
  #Terraform
+  -Stworzenie użytkownika "TerraformUser" z odpowiednimi rolami(Pełen dostęp do: IAM, EC2, RDS itp)
+   potrzebnymi do wykonywania specyficznych poleceń poprzez Terraform.
+  -Zakodowanie wszystkich specyfikacji infrastuktury w pliku "main.tf".
+  -Inicjacja Terraform.
+  -Konfiguracja serwera Nginx za pomocą Ansible.
+   
+ ##Problemy##
+   Problem:
+     Automatyczny transfer pliku na instację.
+   Rozwiązanie:
+     Po krótkim researchu zdecydowałem sie na użycie Ansible. Które poza transferem plików,
+     rozwiązało problem automatyzacji konfiguracji serwera Nginx.
+
+
+
+
+(2.) Autoscaling     #ASG #ELB
