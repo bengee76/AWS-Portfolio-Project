@@ -1,0 +1,19 @@
+- name: Copy files, install and configure Nginx
+  hosts: myhosts
+  become: yes #root privilleges
+  tasks:
+    - name: Install Nginx
+      yum:
+        name: nginx
+        state: present #skip when installed
+    
+    - name: Copy HTML to Nginx root
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html
+    
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started #ensure service has started
+        enabled: yes #start on boot
