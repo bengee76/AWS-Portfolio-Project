@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune of the Day</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        #top-header {
+            font-family: Courier, monospace;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        #top-header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #111;
+            letter-spacing: 1px;
+        }
+
+        #fortune-container {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        #fortune-text {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        #fortune-button-container {
+            display: inline-block;
+        }
+
+        #fortune-button-container button {
+            padding: 14px 40px;
+            font-size: 1rem;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #fortune-button-container button:hover {
+            background-color: #e64a00;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="top-header">
+        <h1>Fortune of the Day</h1>
+    </div>
+
+    <div id="fortune-container">
+        <div id="fortune-text">##Sample Fortune of the Day##</div>
+        <div id="fortune-button-container">
+            <button>Get New Fortune</button>
+        </div>
+    </div>
+</body>
+</html>

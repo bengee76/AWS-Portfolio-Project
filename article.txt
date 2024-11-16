@@ -67,3 +67,31 @@ Każdy etap zawiera:
 
 
 (2.) Autoscaling     #ASG #ELB
+ 
+ #Terraform
+  -Pierwszy kod Terraform tworzy S3 bucket z plikiem html, później przekazywanym do instancji
+   z odpowiednią polityką ról dającą dostęp do S3. Z odpowiednio skonfigurowanej instancji
+   tworzę AMI użyte w drugim pliku Terraform.
+
+
+
+
+(3.) DynamoDB	#Continue Terreform Course Before(Variables and Outputs)
+		#Use variables
+		#Keep secrets on aws
+		  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
