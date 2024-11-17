@@ -72,6 +72,7 @@ Każdy etap zawiera:
   -Pierwszy kod Terraform tworzy S3 bucket z plikiem html, później przekazywanym do instancji
    z odpowiednią polityką ról dającą dostęp do S3. Z odpowiednio skonfigurowanej instancji
    tworzę AMI użyte w drugim pliku Terraform.
+  -Rezygnacja z Ansible, konfiguracja Ami odbywa sie jedynie w Terraform.
 
 
 

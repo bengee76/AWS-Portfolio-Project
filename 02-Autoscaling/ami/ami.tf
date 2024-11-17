@@ -50,53 +50,13 @@ resource "aws_iam_instance_profile" "myProfile" {
   role = aws_iam_role.myRole.name
 }
 
-resource "aws_vpc" "myVpc" {
-  cidr_block = "10.0.0.0/16"
-}
-
-resource "aws_subnet" "subnet_1" {
-  vpc_id = aws_vpc.myVpc.id
-  cidr_block = "10.0.1.0/24"
-  availability_zone = "eu-central-1a"
-}
-
-resource "aws_subnet" "subnet_2" {
-  vpc_id = aws_vpc.myVpc.id
-  cidr_block = "10.0.2.0/24"
-  availability_zone = "eu-central-1b"
-}
-
-#Security group allowing http traffic
-resource "aws_security_group" "mySg" {
-  name = "myGroup"
-  vpc_id = aws_vpc.myVpc.id
-  ingress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 #Instance with Nginx web server configured with index.html file form S3 bucket
 resource "aws_instance" "myInstance" {
   ami = "ami-08ec94f928cf25a9d"
   instance_type = "t2.micro"
   iam_instance_profile = aws_iam_instance_profile.myProfile.name
-  subnet_id =  aws_subnet.subnet_1.id
-  vpc_security_group_ids = [aws_security_group.mySg.id]
 
   user_data = file("user-data.sh")
-  tags = {
-    Name = "coockieInstance"
-  }
 }
 
 #Ami used in a Target Group in main.tf
@@ -106,4 +66,19 @@ resource "aws_ami_from_instance" "myAmiFromInstance" {
   tags = {
     Name = "coockieAmi"
   }
+}
+
+#Terminate source instance after AMI creation
+resource "null_resource" "terminateInastance" {
+  triggers = {
+    ami_id = aws_ami_from_instance.myAmiFromInstance.id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+    aws ec2 terminate-instances --instance-ids ${aws_instance.myInstance.id}
+    EOT
+  }
+
+  depends_on = [ aws_ami_from_instance.myAmiFromInstance ]
 }
