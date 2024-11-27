@@ -6,5 +6,5 @@ sudo yum install aws-cli -y
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
-sudo aws s3 cp s3://${aws_s3_bucket.myBucket.bucket}/index.html /usr/share/nginx/html/index.html
+sudo aws s3 cp s3://coockie-bucket-76/index.html /usr/share/nginx/html/index.html
 sudo systemctl restart nginx

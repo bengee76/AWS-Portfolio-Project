@@ -39,7 +39,7 @@ Każdy etap zawiera:
    proste security group:
    SSH(port 22, z zezwoleniem połączenia(My IP)),
    HTTP(port 80, z  zezwoleniem 0.0.0.0/0(anywhere)).
-  -Domyśly VPC użyty jako tymczasowe ustawienia sieciowe.
+   Domyślny VPC użyty jako tymczasowe ustawienia sieciowe.
   -Połączenie z instancją przy użyciu SSH.
   -Transfer pliku html z wzorem strony(tymczasowo bez żadnych funkcjonalności)
    na instacje EC2 z lokalnej maszyny za pomocą SCP(Secure Copy Protocol).
@@ -55,29 +55,24 @@ Każdy etap zawiera:
   -Zakodowanie wszystkich specyfikacji infrastuktury w pliku "main.tf".
   -Inicjacja Terraform.
   -Konfiguracja serwera Nginx za pomocą Ansible.
-   
- ##Problemy##
-   Problem:
-     Automatyczny transfer pliku na instację.
-   Rozwiązanie:
-     Po krótkim researchu zdecydowałem sie na użycie Ansible. Które poza transferem plików,
-     rozwiązało problem automatyzacji konfiguracji serwera Nginx.
-
-
 
 
 (2.) Autoscaling     #ASG #ELB
  
  #Terraform
-  -Pierwszy kod Terraform tworzy S3 bucket z plikiem html, później przekazywanym do instancji
-   z odpowiednią polityką ról dającą dostęp do S3. Z odpowiednio skonfigurowanej instancji
-   tworzę AMI użyte w drugim pliku Terraform.
-  -Rezygnacja z Ansible, konfiguracja Ami odbywa sie jedynie w Terraform.
+  -Zamiast konfigurować serwer z Ansible, Terraform tworzy S3 bucket z plikiem html,
+   oraz rolę zezwalającą instancji na dostęp do S3.
+  -Własne VPC, Subnets, Route Tables, Internet Gateway.
+  - 
 
 
-
+#CI/CD
+#Git if CI/CD needed
+#DynamoDB
+#Flask/other?
 
 (3.) DynamoDB	#Continue Terreform Course Before(Variables and Outputs)
+		#Learn about CI/CD before
 		#Use variables
 		#Keep secrets on aws
 		  
