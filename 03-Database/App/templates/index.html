@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="center">
+        <div class="box">
+            <div class="text fontcolor">{{ dailyFortune.text }}</div>
+            <div class="bottom-row">
+                <div class="author fontcolor">- {{ dailyFortune.author }}</div>
+            </div>
+        </div>
+        <div class="btn-box">
+            <button class="roll-btn">Roll New Text</button>
+        </div>
+    </section>
+{% endblock %}

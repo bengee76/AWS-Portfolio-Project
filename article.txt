@@ -57,37 +57,45 @@ Każdy etap zawiera:
   -Konfiguracja serwera Nginx za pomocą Ansible.
 
 
-(2.) Autoscaling     #ASG #ELB
+(2.) Autoscaling
  
  #Terraform
   -Zamiast konfigurować serwer z Ansible, Terraform tworzy S3 bucket z plikiem html,
    oraz rolę zezwalającą instancji na dostęp do S3.
-  -Własne VPC, Subnets, Route Tables, Internet Gateway.
-  - 
+  -VPC, Subnets, Route Table, Internet Gateway.  
+  -Security Groups zezwalające na ruch http do instancji jedynie poprzez Load Balancer.
+  -LB listener przekazujący ruch do Load Balancera, LB target group, Load Balancer.
+  -ASG Launch template z konfigurującym instancję skryptem bash "user-data.sh",
+   Auto Scaling Group.
+  -Attachment łączący ze sobą ASG oraz LB. Instancje stworzone przez ASG będą częścią
+   LB target group.
+
+(3.) DynamoDB
+
+  Na tym etapie	wprowadzę do infrastruktury DynamoDB nie relacyjną bazę danych
+  ze względu ich prostotę. Przekształcę statyczną stronę na Pythonową aplikację
+  w Flasku z ograniczoną ilością funkcji, aby zastosować CI/CD w aplikacji.
+  Launch template bedzie posiadał 2 kontenery docker: jeden z aplikacją na serwerze wsgi "gunicorn"
+  i jeden z serwerem webowym nginx jako reverse proxy. Przekierowuje zapytania dynamiczne do serwera wsgi
+  i zajmie sie bezpośrednio plikami statycznymi co odciąży serwer wsgi ze względu na to że radzi sobie z nimi gorzej.
+  przesył danych między nimi będzie możliwy dzięki docker compose.
+
+  
+   
+    
+
+#Flask app on docker on EC2
+#basic funcionality - displaying random fortune every day / roll for other fortune
+#Continue terraform course
+#DynamoFB(secrets?)
+#apply github actions ci/cd on above application
 
 
-#CI/CD
-#Git if CI/CD needed
-#DynamoDB
-#Flask/other?
-
-(3.) DynamoDB	#Continue Terreform Course Before(Variables and Outputs)
-		#Learn about CI/CD before
-		#Use variables
-		#Keep secrets on aws
-		  
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
+#Next steps
+#Use EKS
