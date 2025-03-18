@@ -10,7 +10,7 @@ app = Flask(__name__)
 dailyFortune = {}
 usedFortunes = []
 
-def rollFortune():
+def rollDailyFortune():
     global dailyFortune, usedFortunes
 
     pool = []
@@ -31,14 +31,22 @@ def rollFortune():
     usedFortunes.append(dailyFortune['coockieId'])
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=rollFortune, trigger="cron", hour=0, minute=0)
+scheduler.add_job(func=rollDailyFortune, trigger="cron", hour=0, minute=0)
 scheduler.start()
+
+def rollFortune():
+    print("roll fortune")
 
 @app.route('/')
 def index():
     if not dailyFortune:
-        rollFortune()
+        rollDailyFortune()
     return render_template('index.html', dailyFortune=dailyFortune)
+
+@app.route('/random')
+def random():
+    rollFortune()
+    return render_template('random.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
