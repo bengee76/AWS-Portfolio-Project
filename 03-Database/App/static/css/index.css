@@ -36,14 +36,17 @@
     font-size: 25px;
 }
 
+.btn-box{
+    display: flex;
+}
+
 .roll-btn {
-    display: block;
-    width: 100%;
+    margin: 30px;
+    width: 175px;
     margin-top: 15px;
     margin-bottom: 40px;
     padding: 10px;
     background: #feda6a;
-    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;

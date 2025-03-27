@@ -1,5 +1,5 @@
 import boto3, random
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from apscheduler.schedulers.background import BackgroundScheduler
 
 dynamodb = boto3.resource('dynamodb', region_name='eu-central-1')
@@ -8,6 +8,7 @@ table = dynamodb.Table('coockieTable')
 app = Flask(__name__)
 
 dailyFortune = {}
+fortune = {}
 usedFortunes = []
 
 def rollDailyFortune():
@@ -35,18 +36,27 @@ scheduler.add_job(func=rollDailyFortune, trigger="cron", hour=0, minute=0)
 scheduler.start()
 
 def rollFortune():
-    print("roll fortune")
+    global fortune
+    response = table.scan() #roll for all fortunes
+    items = response.get('Items')
 
-@app.route('/')
+    fortune = random.choice(items)
+
+
+@app.route('/', methods=['GET'])
 def index():
     if not dailyFortune:
         rollDailyFortune()
     return render_template('index.html', dailyFortune=dailyFortune)
 
-@app.route('/random')
-def random():
+@app.route('/random', methods=['GET'])
+def rand():
+    return render_template('random.html', fortune=fortune)
+
+@app.route('/roll', methods=['GET'])
+def rollItem():
     rollFortune()
-    return render_template('random.html')
+    return redirect(url_for('rand'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

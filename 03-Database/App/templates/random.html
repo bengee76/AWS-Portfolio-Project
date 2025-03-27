@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
@@ -8,13 +8,14 @@
     <section class="center">
         <div class="daily">RANDOM COOCKIE</div>
         <div class="box">
-            <div class="text fontcolor">tEXT</div>
+            <div class="text fontcolor">{{ fortune.text }}</div>
             <div class="bottom-row">
-                <div class="author fontcolor">- aUTHOR</div>
+                <div class="author fontcolor">- {{ fortune.author }}</div>
             </div>
         </div>
         <div class="btn-box">
-                <button class="roll-btn"><a href="/random">Roll for Fortune!</a></button>
+                <button class="roll-btn"><a class="fontcolor2" href="/">Daily Coockie</a></button>
+                <button class="roll-btn"><a class="fontcolor2" href="/roll">Roll for Fortune</a></button>
         </div>
     </section>
 {% endblock %}
