@@ -1,12 +1,16 @@
-FROM python:3.13-slim
+FROM ubuntu:22.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+
+COPY . /app
 WORKDIR /app
 
-COPY requirements.txt .
+
+RUN apt-get update && apt-get install -y python3 python3-pip tzdata \
+    && ln -snf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime \
+    && echo "Europe/Warsaw" > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata
+    
 RUN pip install -r requirements.txt
 
-COPY . .
-
-EXPOSE 5000
-
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+ CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

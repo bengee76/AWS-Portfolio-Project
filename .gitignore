@@ -1,6 +1,8 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
-
+.vscode
+.idea
+.venv
 #optional
 .terraform.lock.hcl

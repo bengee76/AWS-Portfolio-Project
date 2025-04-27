@@ -51,12 +51,8 @@ def index():
 
 @app.route('/random', methods=['GET'])
 def rand():
-    return render_template('random.html', fortune=fortune)
-
-@app.route('/roll', methods=['GET'])
-def rollItem():
     rollFortune()
-    return redirect(url_for('rand'))
+    return render_template('random.html', fortune=fortune)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
