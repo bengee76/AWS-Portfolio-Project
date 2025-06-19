@@ -1,0 +1,59 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    background-color: #1d1e22;
+
+    height: 70px;
+    border-bottom: 3px solid #feda6a;
+  }
+  .logobox{
+    height: 60px;
+    width: 60px;
+    background-color: white;
+    border-radius: 10px;
+}
+.logo{
+  margin-top: 11px;
+  margin-left: 10px;
+}
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logobox {
+    margin-right: 1rem;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .name h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .right ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .right li {
+    margin-left: 2rem;
+  }
+  
+  .right a {
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .right a:hover {
+    color: #ff8c00;
+  }

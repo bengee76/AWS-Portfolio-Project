@@ -1,8 +1,10 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+terraform.tfstate.info
 .vscode
 .idea
 .venv
-#optional
+.env
 .terraform.lock.hcl
+ToDo.txt
