@@ -1,9 +1,0 @@
-- tidy up terraform code with modules use variables, outputs
-
-- Use remote tf.state(S3 + dynamodb)
-
-- change storing secrets from aws ssm parameter store to hashicorp vault
-
-- Use some CI/CD(jenkins or github actions) for pushing images to ecr,
-  terraform deployment, lambda seeding database with premade fortunes,
-  some testing later etc

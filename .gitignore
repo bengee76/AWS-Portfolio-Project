@@ -1,4 +1,4 @@
-.terraform/
+.terraform
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfstate.info
@@ -7,4 +7,4 @@ terraform.tfstate.info
 .venv
 .env
 .terraform.lock.hcl
-ToDo.txt
+ToDO.txt

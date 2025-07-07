@@ -8,7 +8,7 @@ import boto3, os
 
 #GET SECRET
 def get_secure_parameter(name):
-    ssm = boto3.client('ssm')
+    ssm = boto3.client('ssm', region_name='eu-central-1')
     response = ssm.get_parameter(
         Name=name,
         WithDecryption=True

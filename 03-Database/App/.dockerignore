@@ -1,6 +1,0 @@
-.gitignore
-.venv
-.idea
-__pycache__
-nginx
-scripts

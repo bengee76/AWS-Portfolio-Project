@@ -4,7 +4,7 @@ from models import Fortune
 import boto3, os
 
 def get_secure_parameter(name):
-    ssm = boto3.client('ssm')
+    ssm = boto3.client('ssm', region_name="eu-central-1")
     response = ssm.get_parameter(
         Name=name,
         WithDecryption=True
@@ -21,11 +21,11 @@ def changeDailyFortune(sessionLocal):
         session.commit()
     except Exception as e:
         session.rollback()
-        raise
+        raise e
     finally:
         session.close()
 
-def handler(event=None, context=None):
+def handler(event, context):
     password = get_secure_parameter('/coockie/appPassword')
     dns = os.getenv("DB_DNS")
 
@@ -36,3 +36,8 @@ def handler(event=None, context=None):
     sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
     changeDailyFortune(sessionLocal)
+
+    return {
+        "statusCode": 200,
+        "body": "Daily fortune updated successfully."
+    }

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, func, NullPool, text
+from sqlalchemy import create_engine, NullPool, text
 from sqlalchemy.orm import sessionmaker
 from models import Fortune, Base
 import boto3, os
@@ -17,7 +17,7 @@ fortunes = [
 ]
 
 def get_secure_parameter(name):
-    ssm = boto3.client('ssm')
+    ssm = boto3.client('ssm', region_name="eu-central-1")
     response = ssm.get_parameter(
         Name=name,
         WithDecryption=True
@@ -25,12 +25,13 @@ def get_secure_parameter(name):
     return response['Parameter']['Value']
 
 def createAppUser(engine, password):
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         try:
-            conn.execute(text("CREATE USER 'appUser'@'%' IDENTIFIED BY :password;"), {"password": password})
-            conn.execute(text("GRANT ALL PRIVILEGES ON testdb.* TO 'appUser'@'%';"))
-        except Exception:
-            raise
+            conn.execute(text("CREATE USER 'appUser'@'%' IDENTIFIED WITH mysql_native_password BY :password;"), {"password": password})
+            conn.execute(text("GRANT SELECT, INSERT, UPDATE, DELETE ON coockieDb.* TO 'appUser'@'%';"))
+            conn.execute(text("FLUSH PRIVILEGES;"))
+        except Exception as e:
+            raise e
 
 
 def createFortune(sessionLocal, daily, author, text):
@@ -50,7 +51,7 @@ def createFortune(sessionLocal, daily, author, text):
     finally:
         session.close()
 
-def handler(event=None, context=None):
+def handler(event, context):
     password = get_secure_parameter('/coockie/password')
     appPassword = get_secure_parameter('/coockie/appPassword')
     dns = os.getenv("DB_DNS")
@@ -68,5 +69,9 @@ def handler(event=None, context=None):
     for fortune in fortunes:
         try:
             createFortune(sessionLocal, fortune["daily"], fortune["author"], fortune["text"])
-        except Exception:
-            raise
+        except Exception as e:
+            raise e
+    return {
+        "statusCode": 200,
+        "body": "Fortunes seeded successfully."
+    }

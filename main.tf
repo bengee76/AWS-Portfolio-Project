@@ -262,24 +262,10 @@ resource "aws_iam_role_policy_attachment" "ecrBackAttachment" {
     policy_arn = aws_iam_policy.ecrPolicy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "backSsmAttach" {
+resource "aws_iam_role_policy_attachment" "backSsmAttachParam" {
     role       = aws_iam_role.backRole.name
     policy_arn = aws_iam_policy.ssmPolicy.arn
 }
-
-
-
-resource "aws_iam_role_policy_attachment" "frontSsmAttach" { ###TEMORARY
-  role       = aws_iam_role.frontRole.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-resource "aws_iam_role_policy_attachment" "backSsmAttach" { ###TEMORARY
-  role       = aws_iam_role.backRole.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-
 
 resource "aws_iam_instance_profile" "frontProfile" {
     name = "frontInstanceProfile"
@@ -301,7 +287,7 @@ resource "aws_launch_template" "frontTemplate" {
         name = aws_iam_instance_profile.frontProfile.name
     }
 
-    user_data = base64encode(templatefile("${path.module}/App/frontend/frontData.sh", {
+    user_data = base64encode(templatefile("${path.module}/scripts/frontData.sh", {
     lbDns = aws_lb.backLb.dns_name
     }))
 }
@@ -315,11 +301,12 @@ resource "aws_launch_template" "backTemplate" {
     iam_instance_profile {
         name = aws_iam_instance_profile.backProfile.name
     }
-
-    user_data = base64encode(templatefile("${path.module}/App/backend/backData.sh", {
+    
+    user_data = base64encode(templatefile("${path.module}/scripts/backData.sh", {
         dbDns = aws_db_instance.coockieDb.address
     }))
 }
+
 
 resource "aws_security_group" "dbSecurityGroup" {
   name        = "dbSecurityGroup"
@@ -342,7 +329,8 @@ resource "aws_db_instance" "coockieDb" {
   instance_class       = "db.t3.micro"
   port = 3306
   vpc_security_group_ids = [ aws_security_group.dbSecurityGroup.id ]
-  username             = "admin"
+  username             = "admin" 
   password             = var.adminPassword
   db_subnet_group_name = aws_db_subnet_group.dbGroup.name
+  skip_final_snapshot = true
 }

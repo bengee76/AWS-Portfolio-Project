@@ -6,7 +6,7 @@ import './fortune.css';
 function RandomFortune() {
   const [fortune, setFortune] = useState({ text: "", author: "" });
   const [error, setError] = useState(null);
-
+  
   const fetchRandomFortune = async () => {
     try {
       const response = await fetch('api/randomFortune');
