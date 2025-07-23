@@ -14,12 +14,12 @@ def get_secure_parameter(name):
         WithDecryption=True
     )
     return response['Parameter']['Value']
-password = get_secure_parameter('/coockie/appPassword')
 dns = os.getenv("DB_DNS")
-
+environment = os.getenv("ENVIRONMENT")
+password = get_secure_parameter(f'/cookie-{environment}/userPassword')
 #DATABASE
 engine = create_engine(
-    f"mysql+pymysql://appUser:{password}@{dns}:3306/coockieDb", #env var here
+    f"mysql+pymysql://appUser:{password}@{dns}:3306/cookie_{environment}_db",
     pool_size=5,
     max_overflow=10,
     pool_timeout=30,

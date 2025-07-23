@@ -31,11 +31,11 @@ function RandomFortune() {
       <FortuneCard 
         text={fortune.text} 
         author={fortune.author} 
-        title="RANDOM COOCKIE"
+        title="RANDOM COOKIE"
       />
         <div className="btn-box">
             <Link to="/">
-                <button className="roll-btn fontcolor2">Daily Coockie</button>
+                <button className="roll-btn fontcolor2">Daily Cookie</button>
             </Link>
             <button className="roll-btn fontcolor2" onClick={fetchRandomFortune}>Roll for Fortune</button>
         </div>

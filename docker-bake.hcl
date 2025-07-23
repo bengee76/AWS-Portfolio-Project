@@ -1,15 +1,17 @@
 group "default" {
   targets = ["frontend", "backend"]
 }
-
+variable "env" {
+  default = "staging"
+}
 target "frontend" {
   context = "./App/frontend"
   dockerfile = "Dockerfile"
-  tags = ["coockie/frontend:latest"]
+  tags = ["cookie-${env}/frontend:latest"]
 }
 
 target "backend" {
   context = "./App/backend"
   dockerfile = "Dockerfile"
-  tags = ["coockie/backend:latest"]
+  tags = ["cookie-${env}/backend:latest"]
 }

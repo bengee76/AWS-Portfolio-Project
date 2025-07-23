@@ -31,7 +31,7 @@ function DailyFortune() {
       <FortuneCard 
         text={dailyFortune.text} 
         author={dailyFortune.author} 
-        title="DAILY COOCKIE" 
+        title="DAILY COOKIE" 
       />
       <div className="btn-box">
         <Link to="/random">

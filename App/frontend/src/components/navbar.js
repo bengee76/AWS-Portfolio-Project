@@ -1,5 +1,5 @@
 import React from 'react';
-import fortuneCookieIcon from '../assets/fortune-coockie.svg';
+import fortuneCookieIcon from '../assets/fortune-cookie.svg';
 import './navbar.css';
 
 function Navbar() {
@@ -10,7 +10,7 @@ function Navbar() {
           <img className="logo" src={fortuneCookieIcon} alt="Fortune Cookie" />
         </div>
         <div className="name">
-          <h2 className="fontcolor">Fortune Coockie</h2>
+          <h2 className="fontcolor">Fortune Cookie</h2>
         </div>
       </div>
     </nav>

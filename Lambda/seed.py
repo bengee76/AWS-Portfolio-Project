@@ -24,11 +24,14 @@ def get_secure_parameter(name):
     )
     return response['Parameter']['Value']
 
-def createAppUser(engine, password):
+def createAppUser(engine, password, environment):
+    valid_environments = ["dev","staging", "production"]
+    if environment not in valid_environments:
+        raise ValueError(f"Invalid environment: {environment}.")
     with engine.begin() as conn:
         try:
-            conn.execute(text("CREATE USER 'appUser'@'%' IDENTIFIED WITH mysql_native_password BY :password;"), {"password": password})
-            conn.execute(text("GRANT SELECT, INSERT, UPDATE, DELETE ON coockieDb.* TO 'appUser'@'%';"))
+            conn.execute(text("CREATE USER IF NOT EXISTS 'appUser'@'%' IDENTIFIED WITH mysql_native_password BY :password;"), {"password": password})
+            conn.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON cookie_{environment}_db.* TO 'appUser'@'%';"))
             conn.execute(text("FLUSH PRIVILEGES;"))
         except Exception as e:
             raise e
@@ -52,17 +55,17 @@ def createFortune(sessionLocal, daily, author, text):
         session.close()
 
 def handler(event, context):
-    password = get_secure_parameter('/coockie/password')
-    appPassword = get_secure_parameter('/coockie/appPassword')
     dns = os.getenv("DB_DNS")
-
+    environment = os.getenv("ENVIRONMENT")
+    password = get_secure_parameter(f'/cookie-{environment}/adminPassword')
+    appPassword = get_secure_parameter(f'/cookie-{environment}/userPassword')
     engine = create_engine(
-        f"mysql+pymysql://admin:{password}@{dns}:3306/coockieDb",
+        f"mysql+pymysql://admin:{password}@{dns}:3306/cookie_{environment}_db",
         poolclass=NullPool
     )
     sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-    createAppUser(engine, appPassword)
+    createAppUser(engine, appPassword, environment)
 
     Base.metadata.create_all(bind=engine)
 

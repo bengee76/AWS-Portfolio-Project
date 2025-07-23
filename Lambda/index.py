@@ -26,11 +26,11 @@ def changeDailyFortune(sessionLocal):
         session.close()
 
 def handler(event, context):
-    password = get_secure_parameter('/coockie/appPassword')
     dns = os.getenv("DB_DNS")
-
+    environment = os.getenv("ENVIRONMENT")
+    password = get_secure_parameter(f'/cookie-{environment}/userPassword')
     engine = create_engine(
-        f"mysql+pymysql://appUser:{password}@{dns}:3306/coockieDb",
+        f"mysql+pymysql://appUser:{password}@{dns}:3306/cookie_{environment}_db",
         poolclass=NullPool
     )
     sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
