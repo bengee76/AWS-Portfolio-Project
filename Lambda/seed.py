@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine, NullPool, text
 from sqlalchemy.orm import sessionmaker
 from models import Fortune, Base
-import boto3, os
+from extensions import get_secure_parameter
+import boto3, os, time
 
 fortunes = [
     {"daily": True,  "author": "Confucius",       "text": "Our greatest glory is not in never falling, but in rising every time we fall."},
@@ -16,25 +17,14 @@ fortunes = [
     {"daily": False, "author": "Winston Churchill","text": "Success is not final, failure is not fatal: It is the courage to continue that counts."}
 ]
 
-def get_secure_parameter(name):
-    ssm = boto3.client('ssm', region_name="eu-central-1")
-    response = ssm.get_parameter(
-        Name=name,
-        WithDecryption=True
-    )
-    return response['Parameter']['Value']
-
 def createAppUser(engine, password, environment):
-    valid_environments = ["dev","staging", "production"]
-    if environment not in valid_environments:
-        raise ValueError(f"Invalid environment: {environment}.")
     with engine.begin() as conn:
         try:
             conn.execute(text("CREATE USER IF NOT EXISTS 'appUser'@'%' IDENTIFIED WITH mysql_native_password BY :password;"), {"password": password})
             conn.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON cookie_{environment}_db.* TO 'appUser'@'%';"))
             conn.execute(text("FLUSH PRIVILEGES;"))
-        except Exception as e:
-            raise e
+        except Exception:
+            raise
 
 
 def createFortune(sessionLocal, daily, author, text):
@@ -47,20 +37,23 @@ def createFortune(sessionLocal, daily, author, text):
         )
         session.add(fortune)
         session.commit()
-    except Exception as e:
+    except Exception:
         session.rollback()
-        print(f"DB error{e}")
         raise
     finally:
         session.close()
 
 def handler(event, context):
+
     dns = os.getenv("DB_DNS")
     environment = os.getenv("ENVIRONMENT")
-    password = get_secure_parameter(f'/cookie-{environment}/adminPassword')
-    appPassword = get_secure_parameter(f'/cookie-{environment}/userPassword')
+    password = "devpassword"
+    appPassword = "devpassword"
+    if environment != "development":
+        password = get_secure_parameter(f'/cookie-{environment}/adminPassword')
+        appPassword = get_secure_parameter(f'/cookie-{environment}/userPassword')
     engine = create_engine(
-        f"mysql+pymysql://admin:{password}@{dns}:3306/cookie_{environment}_db",
+        f"mysql+pymysql://root:{password}@{dns}:3306/cookie_{environment}_db",
         poolclass=NullPool
     )
     sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -70,11 +63,8 @@ def handler(event, context):
     Base.metadata.create_all(bind=engine)
 
     for fortune in fortunes:
-        try:
-            createFortune(sessionLocal, fortune["daily"], fortune["author"], fortune["text"])
-        except Exception as e:
-            raise e
-    return {
-        "statusCode": 200,
-        "body": "Fortunes seeded successfully."
-    }
+        createFortune(sessionLocal, fortune["daily"], fortune["author"], fortune["text"])
+
+if __name__ == "__main__":
+    time.sleep(10)
+    handler(None, None)

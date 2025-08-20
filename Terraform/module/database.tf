@@ -6,7 +6,7 @@ resource "aws_db_instance" "my_db" {
   instance_class         = "db.t3.micro"
   port                   = 3306
   vpc_security_group_ids = [aws_security_group.db_sg.id]
-  username               = "admin"
+  username               = "root"
   password               = var.password
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
   skip_final_snapshot    = true

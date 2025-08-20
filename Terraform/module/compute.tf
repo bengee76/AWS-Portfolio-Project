@@ -182,6 +182,7 @@ resource "aws_launch_template" "back_template" {
   user_data = base64encode(templatefile("${path.module}/../../Scripts/backData.sh", {
     dbDns       = aws_db_instance.my_db.address,
     ENVIRONMENT = var.environment
+    LAMBDA     = "False"
   }))
 }
 

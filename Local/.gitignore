@@ -1,0 +1,4 @@
+#ignore local files
+
+*.py
+*.txt

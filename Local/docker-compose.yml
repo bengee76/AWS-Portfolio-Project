@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: ../App/backend
+    ports:
+      - "5000:5000"
+    environment:
+      - ENVIRONMENT=development
+      - DB_DNS=db
+      - LAMBDA=False
+    depends_on:
+      - lambda
+
+  frontend:
+    build: ../App/frontend
+    ports:
+      - "80:80"
+    environment:
+      - LB_DNS=backend:5000
+      - ENVIRONMENT=development
+    depends_on:
+      - backend
+  
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=devpassword
+      - MYSQL_DATABASE=cookie_development_db
+
+  lambda:
+    build: .
+    environment:
+      - ENVIRONMENT=development
+      - DB_DNS=db
+      - LAMBDA=True
+    depends_on:
+      - db
+
+
+      

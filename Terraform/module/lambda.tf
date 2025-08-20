@@ -9,6 +9,7 @@ resource "aws_lambda_function" "daily_lambda" {
     variables = {
       DB_DNS      = aws_db_instance.my_db.address
       ENVIRONMENT = var.environment
+      LAMBDA     = "True"
     }
   }
 
@@ -34,6 +35,7 @@ resource "aws_lambda_function" "seed_lambda" {
     variables = {
       DB_DNS      = aws_db_instance.my_db.address
       ENVIRONMENT = var.environment
+      LAMBDA     = "True"
     }
   }
 
